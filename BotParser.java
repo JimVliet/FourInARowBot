@@ -19,7 +19,7 @@ package bot;
 import java.util.Scanner;
 
 /**
- * MyBot class
+ * OurBot class
  * 
  * Main class that will keep reading output from the engine.
  * Will either update the bot state or get actions.
