@@ -186,4 +186,63 @@ public class Field {
 	public int getNrRows() {
 		return mRows;
 	}
+	
+	/**
+	 * Check if a playerid can win, if true returns col number needed to win, else returns 9.
+	 * @param args : int pid
+	 * @return : Returns the col number needed to win or 9 if no win avaible.
+	 */
+	public int checkWin(int pid) {
+		int counter = 0;
+		/*Check vertical win*/
+		for (int x = 0; x < mCols; x++)
+			//Reset count everytime you move horizontal
+			counter = 0;
+			for (int y = 0; y < mRows; y++)
+				if (getDisc(x,y) == pid) {
+					counter++;
+					if (counter == 3) {
+						//Check if it can place a disc on top
+						if (y != 5 && getDisc(x,y+1) == 0)
+								return x;										/* VICTORY */									/* VICTORY */
+					}
+				} else {
+					counter = 0;
+				}
+		
+		/*Check horizontal win*/
+		for (int y = 0; y < mRows; y++)
+			//Reset count everytime you move up vertical
+			counter = 0;
+			for (int x = 0; x < mCols; x++)
+				if (getDisc(x,y) == pid) {
+					counter++;
+					if (counter == 3) {
+						//Check if it can place a disc to the left
+						if (x >= 4 && getDisc(x-4,y) == 0 && getDisc(x-4,y-1) != 0)
+								return x-4;										/* VICTORY */
+						//Check if it can place a disc to the right
+						else if (x != 6 && getDisc(x+1,y) == 0 && getDisc(x+1,y-1) != 0)
+							return x+1;											/* VICTORY */
+					}
+				} else {
+					counter = 0;
+				}
+				
+		/*check sideway win*/
+		for (int y = 0; y < mRows; y++)
+			//Reset count everytime you move horizontal
+			counter = 0;
+			for (int x = 0; x < mCols; x++)
+				if (getDisc(x,y) == pid) {
+					//Check towards right corner
+					if (x <= 3 && getDisc(x+1,y+1) == pid && getDisc(x+2,y+2) == pid && getDisc(x+3,y+3) == 0 && getDisc(x+3,y+2) != 0)
+						return x+3;												/* VICTORY */
+					//Check towards left corner
+					else if (x >= 3 && getDisc(x-1,y+1) == pid && getDisc(x-2,y+2) == pid && getDisc(x-3,y+3) == 0 && getDisc(x-3,y+2) != 0)
+						return x-3;												/* VICTORY */
+				}
+		/*No victory condition*/
+		return 9;
+	}
 }

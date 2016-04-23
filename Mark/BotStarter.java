@@ -28,17 +28,34 @@ import java.util.Random;
  */
 
 public class BotStarter {	
-     Field field;
+    Field field;
 
-     /**
-      * Makes a turn. Edit this method to make your bot smarter.
-      *
-      * @return The column where the turn was made.
-      */
-     public int makeTurn() {
-         int move = new Random().nextInt(7);     
-         return move;
-     }
+    /**
+    * Makes a turn.
+    *
+    * @return The column where the turn was made.
+    */
+    public int makeTurn() {
+		int winAns = 9; //Answer to fill in when checking win;
+
+		/* Place first turn in the middle always */
+		if (BotParser.mRound == 1 || BotParser.mRound == 2)
+			return 3;
+		/* Check if there is a win condition after enough rounds */
+		else if (BotParser.mRound > 5)
+			winAns = BotParser.mField.checkWin(BotParser.mBotId);
+			if (winAns != 9)
+				return winAns;
+			
+			winAns = BotParser.mField.checkWin(BotParser.mBotIdE);
+			if (winAns != 9)
+				return winAns;
+		/* Random Move */
+		else {
+			int move = new Random().nextInt(7);     
+			return move;
+		}
+    }
      
  	public static void main(String[] args) {
  		BotParser parser = new BotParser(new BotStarter());
