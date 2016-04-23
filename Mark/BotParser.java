@@ -33,7 +33,7 @@ public class BotParser {
     final BotStarter bot;
     
 	/*!!!! FIELD IS PUBLIC BUT SHOULD BE PRIVATE !!!!*/
-    public Field mField;
+    public static Field mField;
     public static int mBotId = 0;
     public static int mBotIdE = 0;
 	public static int mRound = 0;

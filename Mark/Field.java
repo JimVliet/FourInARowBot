@@ -194,11 +194,13 @@ public class Field {
 	 */
 	public int checkWin(int pid) {
 		int counter = 0;
+		int x = 0;
+		int y = 0;
 		/*Check vertical win*/
-		for (int x = 0; x < mCols; x++)
+		for (x = 0; x < mCols; x++) {
 			//Reset count everytime you move horizontal
 			counter = 0;
-			for (int y = 0; y < mRows; y++)
+			for (y = 0; y < mRows; y++)
 				if (getDisc(x,y) == pid) {
 					counter++;
 					if (counter == 3) {
@@ -209,12 +211,12 @@ public class Field {
 				} else {
 					counter = 0;
 				}
-		
+		}
 		/*Check horizontal win*/
-		for (int y = 0; y < mRows; y++)
+		for (y = 0; y < mRows; y++) {
 			//Reset count everytime you move up vertical
 			counter = 0;
-			for (int x = 0; x < mCols; x++)
+			for (x = 0; x < mCols; x++)
 				if (getDisc(x,y) == pid) {
 					counter++;
 					if (counter == 3) {
@@ -228,12 +230,12 @@ public class Field {
 				} else {
 					counter = 0;
 				}
-				
+		}	
 		/*check sideway win*/
-		for (int y = 0; y < mRows; y++)
+		for (y = 0; y < mRows; y++) {
 			//Reset count everytime you move horizontal
 			counter = 0;
-			for (int x = 0; x < mCols; x++)
+			for (x = 0; x < mCols; x++)
 				if (getDisc(x,y) == pid) {
 					//Check towards right corner
 					if (x <= 3 && getDisc(x+1,y+1) == pid && getDisc(x+2,y+2) == pid && getDisc(x+3,y+3) == 0 && getDisc(x+3,y+2) != 0)
@@ -242,6 +244,7 @@ public class Field {
 					else if (x >= 3 && getDisc(x-1,y+1) == pid && getDisc(x-2,y+2) == pid && getDisc(x-3,y+3) == 0 && getDisc(x-3,y+2) != 0)
 						return x-3;												/* VICTORY */
 				}
+		}
 		/*No victory condition*/
 		return 9;
 	}
