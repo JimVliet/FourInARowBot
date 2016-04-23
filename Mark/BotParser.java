@@ -32,8 +32,11 @@ public class BotParser {
 	final Scanner scan;
     final BotStarter bot;
     
-    private Field mField;
+	/*!!!! FIELD IS PUBLIC BUT SHOULD BE PRIVATE !!!!*/
+    public Field mField;
     public static int mBotId = 0;
+    public static int mBotIdE = 0;
+	public static int mRound = 0;
 
     
     public BotParser(BotStarter bot) {
@@ -61,11 +64,18 @@ public class BotParser {
                 }
                 if (parts[1].equals("your_botid")) {
                     mBotId = Integer.parseInt(parts[2]);
+					if (mBotId == 1)
+						mBotIdE = 2;
+					else
+						mBotIdE = 1;
                 }
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {
                     String data = parts[3];
                     mField.parseFromString(data); /* Parse Field with data */
+                }
+				if (parts[2].equals("round")) {
+                    mRound = Integer.parseInt(parts[3]); /* Updates the roundnumber */
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */
