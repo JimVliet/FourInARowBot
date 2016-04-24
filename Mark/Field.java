@@ -224,10 +224,10 @@ public class Field {
 						//Not bottom row else don't check below
 						if (y < 5) {
 							//Check if it can place a disc to the left
-							if (x >= 3 && getDisc(x-3,y) == 0 && getDisc(x-3,y-1) != 0)
+							if (x >= 3 && getDisc(x-3,y) == 0 && getDisc(x-3,y+1) != 0)
 								return x-3;										// VICTORY //
 							//Check if it can place a disc to the right
-							else if (x != mCols-1 && getDisc(x+1,y) == 0 && getDisc(x+1,y-1) != 0)
+							else if (x != mCols-1 && getDisc(x+1,y) == 0 && getDisc(x+1,y+1) != 0)
 								return x+1;										// VICTORY //
 						} else {
 							//Check if it can place a disc to the left
@@ -242,18 +242,38 @@ public class Field {
 					connected = 0;
 				}
 		}
-		//check sideway win//
+		//check diagonal win//
 		for (y = mRows-1; y > 0; y--) {
 			//Reset count everytime you move horizontal
 			connected = 0;
 			for (x = 0; x < mCols; x++)
 				if (getDisc(x,y) == pid) {
-					//Check towards right corner
-					if (x <= 3 && getDisc(x+1,y-1) == pid && getDisc(x+2,y-2) == pid && getDisc(x+3,y-3) == 0 && getDisc(x+3,y-2) != 0)
-						return x+3;												// VICTORY //
-					//Check towards left corner
-					else if (x >= 3 && getDisc(x-1,y-1) == pid && getDisc(x-2,y-2) == pid && getDisc(x-3,y-3) == 0 && getDisc(x-3,y-2) != 0)
-						return x-3;												// VICTORY //
+					//Check 3 connected towards right corner
+					if (x <= 3 && getDisc(x+1,y-1) == pid && getDisc(x+2,y-2) == pid)
+						//Check if it can add to the right side
+						if (y > 2 && getDisc(x+3,y-3) == 0 && getDisc(x+3,y-2) != 0)
+							return x+3;											// VICTORY //
+						//Check if it can add to the left side
+						if (y == mRows-2) {
+							if (getDisc(x-1,y+1) == 0)
+								return x-1;										// VICTORY //
+						} else if (y < mRows-2) {
+							if (getDisc(x-1,y+1) == 0 && getDisc(x-1,y+2) != 0 )
+								return x-1;										// VICTORY //
+						}
+					//Check 3 connected towards left corner
+					else if (x >= 3 && getDisc(x-1,y-1) == pid && getDisc(x-2,y-2) == pid && getDisc(x-3,y-3) == 0)
+						//Check if it can add to the left side
+						if (y > 2 && getDisc(x-3,y-3) == 0 && getDisc(x-3,y-2) != 0)
+							return x-3;											// VICTORY //
+						//Check if it can add to the right side
+						if (y == mRows-2) {
+							if (getDisc(x+1,y+1) == 0)
+								return x+1;										// VICTORY //
+						} else if (y < mRows-2) {
+							if (getDisc(x+1,y+1) == 0 && getDisc(x+1,y+2) != 0)
+								return x+1;										// VICTORY //
+						}
 				}
 		}
 		//No victory condition//
