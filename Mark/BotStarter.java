@@ -15,7 +15,7 @@
 //    For the full copyright and license information, please view the LICENSE
 //    file that was distributed with this source code.
 
-package bot;
+package BotClasses;
 import java.util.Random;
 
 /**
@@ -29,7 +29,6 @@ import java.util.Random;
 
 public class BotStarter {	
     Field field;
-
     /**
     * Makes a turn.
     *
@@ -39,10 +38,11 @@ public class BotStarter {
 		int winAns = 9; //Answer to fill in when checking win;
 
 		/* Place first turn in the middle always */
-		if (BotParser.mRound == 1 || BotParser.mRound == 2)
+		if (BotParser.mRound == 1 || BotParser.mRound == 2) {
 			return 3;
+		}
 		/* Check if there is a win condition after enough rounds */
-		else if (BotParser.mRound > 5)
+		if (BotParser.mRound >= 3) {
 			winAns = BotParser.mField.checkWin(BotParser.mBotId);
 			if (winAns != 9)
 				return winAns;
@@ -50,11 +50,10 @@ public class BotStarter {
 			winAns = BotParser.mField.checkWin(BotParser.mBotIdE);
 			if (winAns != 9)
 				return winAns;
-		/* Random Move */
-		else {
-			int move = new Random().nextInt(7);     
-			return move;
 		}
+		/* Random Move */
+		int move = new Random().nextInt(7);
+		return move;
     }
      
  	public static void main(String[] args) {

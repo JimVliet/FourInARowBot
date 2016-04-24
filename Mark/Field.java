@@ -15,7 +15,7 @@
 //    For the full copyright and license information, please view the LICENSE
 //    file that was distributed with this source code.
 
-package bot;
+package BotClasses;
 /**
  * Field class
  * 
@@ -193,59 +193,70 @@ public class Field {
 	 * @return : Returns the col number needed to win or 9 if no win avaible.
 	 */
 	public int checkWin(int pid) {
-		int counter = 0;
+		int connected = 0;
 		int x = 0;
 		int y = 0;
-		/*Check vertical win*/
+		//Check vertical win//
 		for (x = 0; x < mCols; x++) {
 			//Reset count everytime you move horizontal
-			counter = 0;
-			for (y = 0; y < mRows; y++)
+			connected = 0;
+			for (y = mRows-1; y > 0; y--) {
 				if (getDisc(x,y) == pid) {
-					counter++;
-					if (counter == 3) {
+					connected++;
+					if (connected == 3) {
 						//Check if it can place a disc on top
-						if (y != 5 && getDisc(x,y+1) == 0)
-								return x;										/* VICTORY */									/* VICTORY */
+						if (!isColumnFull(x) && getDisc(x,(y-1)) == 0)
+								return x;									// VICTORY //
 					}
 				} else {
-					counter = 0;
+					connected = 0;
 				}
+			}
 		}
-		/*Check horizontal win*/
-		for (y = 0; y < mRows; y++) {
+		//Check horizontal win//
+		for (y = mRows-1; y > 0; y--) {
 			//Reset count everytime you move up vertical
-			counter = 0;
+			connected = 0;
 			for (x = 0; x < mCols; x++)
 				if (getDisc(x,y) == pid) {
-					counter++;
-					if (counter == 3) {
-						//Check if it can place a disc to the left
-						if (x >= 4 && getDisc(x-4,y) == 0 && getDisc(x-4,y-1) != 0)
-								return x-4;										/* VICTORY */
-						//Check if it can place a disc to the right
-						else if (x != 6 && getDisc(x+1,y) == 0 && getDisc(x+1,y-1) != 0)
-							return x+1;											/* VICTORY */
+					connected++;
+					if (connected == 3) {
+						//Not bottom row else don't check below
+						if (y < 5) {
+							//Check if it can place a disc to the left
+							if (x >= 3 && getDisc(x-3,y) == 0 && getDisc(x-3,y-1) != 0)
+								return x-3;										// VICTORY //
+							//Check if it can place a disc to the right
+							else if (x != mCols-1 && getDisc(x+1,y) == 0 && getDisc(x+1,y-1) != 0)
+								return x+1;										// VICTORY //
+						} else {
+							//Check if it can place a disc to the left
+							if (x >= 3 && getDisc(x-3,y) == 0)
+								return x-3;										// VICTORY //
+							//Check if it can place a disc to the right
+							else if (x != mCols-1 && getDisc(x+1,y) == 0)
+								return x+1;		
+						}
 					}
 				} else {
-					counter = 0;
+					connected = 0;
 				}
-		}	
-		/*check sideway win*/
-		for (y = 0; y < mRows; y++) {
+		}
+		//check sideway win//
+		for (y = mRows-1; y > 0; y--) {
 			//Reset count everytime you move horizontal
-			counter = 0;
+			connected = 0;
 			for (x = 0; x < mCols; x++)
 				if (getDisc(x,y) == pid) {
 					//Check towards right corner
-					if (x <= 3 && getDisc(x+1,y+1) == pid && getDisc(x+2,y+2) == pid && getDisc(x+3,y+3) == 0 && getDisc(x+3,y+2) != 0)
-						return x+3;												/* VICTORY */
+					if (x <= 3 && getDisc(x+1,y-1) == pid && getDisc(x+2,y-2) == pid && getDisc(x+3,y-3) == 0 && getDisc(x+3,y-2) != 0)
+						return x+3;												// VICTORY //
 					//Check towards left corner
-					else if (x >= 3 && getDisc(x-1,y+1) == pid && getDisc(x-2,y+2) == pid && getDisc(x-3,y+3) == 0 && getDisc(x-3,y+2) != 0)
-						return x-3;												/* VICTORY */
+					else if (x >= 3 && getDisc(x-1,y-1) == pid && getDisc(x-2,y-2) == pid && getDisc(x-3,y-3) == 0 && getDisc(x-3,y-2) != 0)
+						return x-3;												// VICTORY //
 				}
 		}
-		/*No victory condition*/
+		//No victory condition//
 		return 9;
 	}
 }
